@@ -1,5 +1,5 @@
 import { displayProjects } from "./home";
-import { displayToDo, ToDo } from "./todo";
+import { display, ToDo } from "./todo";
 
 function Project(name, toDoList) {
   this.name = name;
@@ -153,9 +153,17 @@ function displayToDoList(key) {
   let arr = str.split(",");
 
   if (str != "") {
-    for (let i = 0; i < arr.length; i += 4) {
-      let item = new ToDo(arr[i], arr[i + 1], arr[i + 2], arr[i + 3]);
-      home.appendChild(displayToDo(item, key));
+    for (let i = 0; i < arr.length; i += 6) {
+      let item = ToDo(
+        arr[i],
+        arr[i + 1],
+        arr[i + 2],
+        arr[i + 3],
+        arr[i + 4],
+        arr[i + 5]
+      );
+
+      home.appendChild(item.display());
     }
   }
   home.appendChild(addToDo(key));
@@ -250,9 +258,11 @@ function toDoModal(key) {
     content.style.height = "200px";
     localStorage.setItem(
       key,
-      (localStorage.getItem(key) === ""
-        ? ""
-        : localStorage.getItem(key) + ",") +
+      addCurrent(key) +
+        key +
+        "," +
+        addIndex(key) +
+        "," +
         titleInput.value +
         "," +
         descriptionInput.value +
@@ -261,6 +271,7 @@ function toDoModal(key) {
         "," +
         priorityInput.value
     );
+    console.log(localStorage.getItem(key));
     displayToDoList(key);
   };
 
@@ -276,4 +287,20 @@ function toDoModal(key) {
   content.appendChild(submit);
 }
 
+function addCurrent(key) {
+  if (localStorage.getItem(key) === "") {
+    return "";
+  } else {
+    return localStorage.getItem(key) + ",";
+  }
+}
+
+function addIndex(key) {
+  let arr = localStorage.getItem(key).split(",");
+  if (localStorage.getItem(key) === "") {
+    return 0;
+  } else {
+    return arr.length / 6;
+  }
+}
 export { addProject, displayToDoList, displayProject, Project };
