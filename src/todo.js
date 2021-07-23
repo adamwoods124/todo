@@ -139,7 +139,7 @@ const ToDo = (key, index, title, description, due, priority) => {
     let submit = document.createElement("input");
     submit.classList.add("modal-button");
     submit.setAttribute("type", "submit");
-    submit.setAttribute("value", "Create item");
+    submit.setAttribute("value", "Edit item");
     submit.onclick = () => {
       item.style.display = "none";
       content.innerHTML = "";

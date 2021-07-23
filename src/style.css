@@ -253,3 +253,7 @@ h1 {
 .delete-cont:hover {
   cursor: pointer;
 }
+
+.complete-cont:hover {
+  cursor: pointer;
+}
