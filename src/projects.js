@@ -1,55 +1,56 @@
 import { displayProjects } from "./home";
 import { display, ToDo } from "./todo";
 
-function Project(name, toDoList) {
-  this.name = name;
+const Project = (name, toDoList) => {
+  const getName = () => name;
+  const list = () => toDoList;
 
-  this.list = toDoList;
-}
+  const display = () => {
+    const card = document.createElement("div");
+    card.classList.add("project-card");
 
-function displayProject(obj_name) {
-  const card = document.createElement("div");
-  card.classList.add("project-card");
+    let topCont = document.createElement("div");
+    topCont.classList.add("top-cont");
 
-  let topCont = document.createElement("div");
-  topCont.classList.add("top-cont");
+    let deleteCont = document.createElement("div");
+    deleteCont.classList.add("delete-cont");
+    deleteCont.classList.add("material-icons");
+    deleteCont.textContent = "delete";
+    deleteCont.onclick = () => {
+      if (confirm("Delete " + getName() + "?")) {
+        localStorage.removeItem(getName());
+      }
+      location.reload();
+    };
 
-  let deleteCont = document.createElement("div");
-  deleteCont.classList.add("delete-cont");
-  deleteCont.classList.add("material-icons");
-  deleteCont.textContent = "delete";
-  deleteCont.onclick = () => {
-    if (confirm("Delete " + obj_name + "?")) {
-      localStorage.removeItem(obj_name);
-    }
-    location.reload();
+    topCont.appendChild(deleteCont);
+
+    card.onmouseenter = () => {
+      topCont.style.display = "flex";
+    };
+
+    card.onmouseleave = () => {
+      topCont.style.display = "none";
+    };
+
+    card.onclick = () => {
+      setTimeout(function () {
+        displayToDoList(getName());
+      }, 50);
+    };
+
+    let name = document.createElement("h1");
+    name.classList.add("project-title");
+    name.textContent = getName();
+
+    card.appendChild(topCont);
+    card.appendChild(name);
+
+    return card;
   };
 
-  topCont.appendChild(deleteCont);
-
-  card.onmouseenter = () => {
-    topCont.style.display = "flex";
-  };
-
-  card.onmouseleave = () => {
-    topCont.style.display = "none";
-  };
-
-  card.onclick = () => {
-    setTimeout(function () {
-      displayToDoList(obj_name);
-    }, 50);
-  };
-
-  let name = document.createElement("h1");
-  name.classList.add("project-title");
-  name.textContent = obj_name;
-
-  card.appendChild(topCont);
-  card.appendChild(name);
-
-  return card;
-}
+  return { display };
+};
 
 function addProject() {
   const card = document.createElement("div");
@@ -303,4 +304,4 @@ function addIndex(key) {
     return arr.length / 6;
   }
 }
-export { addProject, displayToDoList, displayProject, Project };
+export { addProject, displayToDoList, Project };

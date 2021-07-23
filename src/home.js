@@ -34,7 +34,11 @@ function displayProjects() {
   const body = document.querySelector(".home-body");
   body.innerHTML = "";
   for (let i = 0; i < localStorage.length; i++) {
-    body.appendChild(displayProject(localStorage.key(i)));
+    let project = Project(
+      localStorage.key(i),
+      localStorage.getItem(localStorage.key(i))
+    );
+    body.appendChild(project.display());
   }
 
   body.appendChild(addProject());
